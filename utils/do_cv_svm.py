@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, confusion_matrix
 from sklearn.model_selection import train_test_split, StratifiedKFold, GridSearchCV
 from tqdm.notebook import tqdm
 from sklearn.svm import SVC
@@ -9,6 +9,7 @@ def do_cv_svm(X, y, cv_splits, params_cv_folds, params={'C' : [1, 10, 100, 1000]
     skf = StratifiedKFold(n_splits=cv_splits, shuffle=True, random_state=1)
 
     acuracias = []
+    confusion_matrix_list = []
     fold = 1
     
     pgb = tqdm(total=cv_splits, desc='Folds avaliados')
@@ -31,10 +32,11 @@ def do_cv_svm(X, y, cv_splits, params_cv_folds, params={'C' : [1, 10, 100, 1000]
         pred = grid.predict(X_teste)
 
         acuracias.append(f1_score(y_teste, pred))
-
+        confusion_matrix_list.append(confusion_matrix(y_teste, pred))
+        
         fold+=1
         pgb.update(1)
         
     pgb.close()
     
-    return acuracias
+    return acuracias, confusion_matrix_list
