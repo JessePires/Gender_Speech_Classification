@@ -1,6 +1,5 @@
 import numpy as np
-from sklearn.metrics import f1_score, classification_report
-from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split, StratifiedKFold, GridSearchCV
 from tqdm.notebook import tqdm
 from sklearn.svm import SVC
